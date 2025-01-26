@@ -1,22 +1,66 @@
-import React from 'react'
 
-export default function 
-login() {
+import { Link } from 'react-router-dom'
+import useAuth from '../hooks/useAuth';
+import AlertaError from './AlertaError';
+import { createRef, useState } from 'react';
+
+
+
+export default function Login() {
+
+  
+  const {login} = useAuth()
+
+  const emailRef = createRef();
+  const passwordRef = createRef();
+
+  const [errores, setErrores] = useState([])
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+
+    const datos = {
+      email : emailRef.current.value,
+      password : passwordRef.current.value
+    }
+
+    login(datos, setErrores)
+
+
+
+
+  }
+
   return (
     <div>
-        <form action="" className='w-96 bg-white p-6 shadow-xl rounded space-y-2' noValidate>
+        <form action="" className='w-96 p-6 space-y-2' noValidate onSubmit={handleSubmit}>
+
+          {errores ? errores.map((error, i) => <AlertaError key={i}> {error}</AlertaError>) : null}
+
+          <h1 className='text-white text-4xl font-bold text-center'>Log In</h1>
+          <p className='text-white mb-6'>Lets to start</p>
            
             <div className=''>
-                <label htmlFor="email" className='font-bold uppercase text-xl text-slate-400'>Email</label>
-                <input type="email" placeholder='Tu Email' id='email' name='email' className='block p-2 border w-full '/>
+                <label htmlFor="email" className='font-bold text-white'
+                >Email</label>
+                <input type="email" placeholder='Your Email' id='email' name='email' 
+                className='block p-2 w-full rounded-2xl bg-black placeholder:text-white text-white caret-white'
+                
+                ref={emailRef}/>
             </div>
-            <div className=''>
-                <label htmlFor="password" className='font-bold uppercase text-xl text-slate-400'>password</label>
-                <input type="password" placeholder='Tu Password' id='password' name='password' className='block p-2 border w-full '/>
+            <div className='mt-6'>
+                <label htmlFor="password" className='font-bold text-white'>Password</label>
+                <input type="password" placeholder='Your Password' id='password' name='password'
+                className='block p-2 w-full rounded-2xl bg-black placeholder:text-white text-white caret-white'
+                ref={passwordRef}/>
             </div>
             
-            <input type="submit" value="Log In" className='bg-indigo-500 w-full p-2 text-white font-bold text-xl rounded mt-2 hover:bg-indigo-700 cursor-pointer'/>
+            <input type="submit" value="Log In" className='bg-red-400 mt-4 w-full p-2 font-bold text-xl rounded-xl hover:bg-red-300 cursor-pointer'/>
         </form>
+
+        <section className='text-center'>
+            <Link to= "/" className='text-white'>Don't have an account yet?</Link>
+        </section>
     </div>
   )
 }
