@@ -1,7 +1,173 @@
-import React from 'react'
+import React, { useState } from "react";
+import clienteAxios from "../config/axios";
+import { useNavigate } from "react-router-dom";
 
-export default function Register() {
+const Register = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    try {
+      const { data } = await clienteAxios.post("/register", {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      // Guardar el token en sessionStorage y redirigir al usuario
+      sessionStorage.setItem("AUTH_TOKEN", data.token);
+      setSuccess("User registered successfully!");
+      setFormData({ name: "", email: "", password: "", confirmPassword: "" });
+
+      // Redirigir al inicio después de registrarse
+      navigate("/");
+    } catch (error) {
+      if (error.response) {
+        console.error("Error status:", error.response.status); // Código de error
+        console.error("Error data:", error.response.data); // Datos del servidor
+      } else if (error.request) {
+        console.error("No response received:", error.request); // Sin respuesta
+      } else {
+        console.error("Error setting up request:", error.message); // Error en Axios
+      }
+      setError(
+        error.response?.data?.message ||
+          "An error occurred. Please try again later."
+      );
+    }
+  };
+
   return (
-    <div>Register</div>
-  )
-}
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="w-96 p-6 space-y-2">
+        <h2 className="text-white text-4xl font-bold text-center">Register</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="form-group">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-white"
+            >
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Your Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
+            />
+          </div>
+
+          <div className="form-group">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-white"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Your Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
+            />
+          </div>
+
+          <div className="form-group">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-white"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Your Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
+            />
+          </div>
+
+          <div className="form-group">
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-white"
+            >
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="Confirm Your Password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
+            />
+          </div>
+
+          {error && <p className="text-sm text-red-600">{error}</p>}
+          {success && <p className="text-sm text-green-600">{success}</p>}
+
+          <button
+            type="submit"
+            className="bg-red-400 mt-4 w-full p-2 font-bold text-xl rounded-xl hover:bg-red-300 cursor-pointer"
+          >
+            Register
+          </button>
+        </form>
+        <div className="text-center mt-4">
+          <p className="text-white">
+            Already have an account?{" "}
+            <a
+              href="/auth/login"
+              className="text-black font-bold hover:underline"
+            >
+              Log in
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Register;
