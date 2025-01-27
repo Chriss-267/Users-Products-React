@@ -38,7 +38,7 @@ export default function Login() {
           {errores ? errores.map((error, i) => <AlertaError key={i}> {error}</AlertaError>) : null}
 
           <h1 className='text-white text-4xl font-bold text-center'>Log In</h1>
-          <p className='text-white mb-6'>Lets to start</p>
+          <p className='text-white mb-6'>Let's to start</p>
            
             <div className=''>
                 <label htmlFor="email" className='font-bold text-white'
@@ -59,7 +59,7 @@ export default function Login() {
         </form>
 
         <section className='text-center'>
-            <Link to= "/" className='text-white'>Don't have an account yet?</Link>
+            <Link to= "/auth/register" className='text-white'>Don't have an account yet?</Link>
         </section>
     </div>
   )

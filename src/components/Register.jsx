@@ -7,7 +7,7 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    password_confirmation: "",
   });
 
   const [error, setError] = useState("");
@@ -28,22 +28,23 @@ const Register = () => {
     setError("");
     setSuccess("");
 
-    if (formData.password !== formData.confirmPassword) {
+    if (formData.password !== formData.password_confirmation) {
       setError("Passwords do not match.");
       return;
     }
 
     try {
-      const { data } = await clienteAxios.post("/register", {
+      const { data } = await clienteAxios.post("/api/register", {
         name: formData.name,
         email: formData.email,
         password: formData.password,
+        password_confirmation : formData.password_confirmation
       });
 
       // Guardar el token en sessionStorage y redirigir al usuario
       sessionStorage.setItem("AUTH_TOKEN", data.token);
       setSuccess("User registered successfully!");
-      setFormData({ name: "", email: "", password: "", confirmPassword: "" });
+      setFormData({ name: "", email: "", password: "", password_confirmation: "" });
 
       // Redirigir al inicio después de registrarse
       navigate("/");
@@ -135,9 +136,9 @@ const Register = () => {
             <input
               type="password"
               id="confirmPassword"
-              name="confirmPassword"
+              name="password_confirmation"
               placeholder="Confirm Your Password"
-              value={formData.confirmPassword}
+              value={formData.password_confirmation}
               onChange={handleChange}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
