@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-
 function ProductList() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -103,9 +102,9 @@ function ProductList() {
                         </Link>
                     </div>
                     <p className='text-6xl font-bold text-center'>Productos disponibles</p>
-                    <table className="table-auto w-full border-collapse border border-gray-300"> {/* Tabla principal */}
+                    <table className="table-auto w-full border border-gray-300 shadow-md rounded-lg"> {/* Tabla principal */}
                         <thead>
-                            <tr className="bg-gray-100"> {/* Encabezado de la tabla */}
+                            <tr className="bg-gray-100 hover:bg-gray-200 transition duration-300"> {/* Encabezado de la tabla */}
                                 <th className="border border-gray-300 px-4 py-2">Nombre</th>
                                 <th className="border border-gray-300 px-4 py-2">Descripción</th>
                                 <th className="border border-gray-300 px-4 py-2">Distribuidor</th>
@@ -116,11 +115,11 @@ function ProductList() {
                                 <th className="border border-gray-300 px-4 py-2">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {products.map((product) => (
-                                <tr key={product.id} className="hover:bg-gray-50 transition duration-300">
+                        <tbody className="divide-y divide-gray-300">
+                            {products.map((product, index) => (
+                                <tr key={product.id} className={index % 2 === 0 ? "bg-gray-100" : "bg-white"}>
                                     <td className="border border-gray-300 px-4 py-2">{product.name}</td>
-                                    <td className="border border-gray-300 px-4 py-2 line-clamp-3">{product.description}</td>
+                                    <td className="border border-gray-300 px-4 py-2 w-1/3 whitespace-normal break-words">{product.description}</td>
                                     <td className="border border-gray-300 px-4 py-2">{getDistributorName(product.distributor_id)}</td>
                                     <td className="border border-gray-300 px-4 py-2">{getCategoryName(product.category_id)}</td>
                                     <td className="border border-gray-300 px-4 py-2 font-bold text-green-600">

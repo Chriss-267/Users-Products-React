@@ -46,7 +46,7 @@ function CrearProducto() {
                 distributor_id,
                 status,
             })
-            .then(() => navigate("/"))
+            .then(() => navigate("/productos"))
             .catch((error) => console.error(error));
     };
 
@@ -59,7 +59,7 @@ function CrearProducto() {
                     </button>
                 </Link>
             </div>
-            <h1 className="text-3xl font-bold mb-8">Crear Producto</h1>
+            <h1 className='text-6xl font-bold text-center'>Crear Producto</h1>
             <form onSubmit={handleSubmit} className="space-y-8">
 
                 <div className="mb-8">

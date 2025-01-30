@@ -74,7 +74,7 @@ function ActualizarProducto() {
             .catch((error) => console.error("Error al actualizar el producto:", error));
     };
 
-    if (loading) return <div>Cargando...</div>;
+    if (loading) return <div className='text-6xl font-bold text-center'>Cargando...</div>;
     if (error) return <div>{error}</div>;
 
     return (
@@ -86,7 +86,7 @@ function ActualizarProducto() {
                     </button>
                 </Link>
             </div>
-            <h1 className="text-3xl font-bold mb-4">Actualizar Producto</h1>
+            <h1 className='text-6xl font-bold text-center'>Actualizar Producto</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="mb-4">
                     <input
