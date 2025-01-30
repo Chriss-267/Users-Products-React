@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Spinner from '../spinner/Spinner';
 
 function ProductList() {
     const [products, setProducts] = useState([]);
@@ -73,7 +74,7 @@ function ProductList() {
     };
 
     if (loading) {
-        return <div className='text-6xl font-bold text-center'>Cargando...</div>; // Muestra un mensaje de carga mientras obtenemos los productos
+        return <div className='my-20'><Spinner/> </div>// spinner de carga
     }
 
     if (error) {

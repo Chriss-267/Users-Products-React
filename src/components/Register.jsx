@@ -68,7 +68,7 @@ const Register = () => {
     <div className="flex items-center justify-center min-h-screen">
       <div className="w-96 p-6 space-y-2">
         <h2 className="text-white text-4xl font-bold text-center">Register</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} noValidate className="space-y-4">
           <div className="form-group">
             <label
               htmlFor="name"

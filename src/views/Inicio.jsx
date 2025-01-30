@@ -1,12 +1,22 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import useAuth from "../hooks/useAuth"
+
 
 export default function Inicio() {
+
+  const {user} = useAuth({middleware : ""})
   return (
-    <div className='text-6xl font-bold text-center'><Link to="/productos">
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Ir a productos
-      </button>
-    </Link></div>
+    <div className=' bg-photo'>
+
+      <div className="flex justify-around items-center h-96">
+        <div className="w-96">
+          <h1 className="text-white font-extrabold text-center mt-40 shadow-xl">Encuentra todo lo necesario en tecnología</h1>
+        </div>
+        
+        <div>
+          <p className="font-bold text-3xl text-white">Comencemos {user ? user.name : ""}</p>
+        </div>
+        </div>
+        
+    </div>
   )
 }

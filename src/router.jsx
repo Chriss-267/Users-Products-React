@@ -6,24 +6,31 @@ import Inicio from "./views/Inicio"
 import ProductList from "./views/ProductosList"
 import CrearProducto from "./views/CrearProducto"
 import ActualizarProducto from "./views/ActualizarProducto"
+import Layout from "./Layouts/Layout"
 
 
 const router = createBrowserRouter([
     {
         path : "/",
-        element : <Inicio/>
-    },
-    {
-        path : "/productos",
-        element : <ProductList/>
-    },
-    {
-        path : "/crearProducto",
-        element : <CrearProducto/>
-    },
-    {
-        path : "/actualizarProducto/:id",
-        element : <ActualizarProducto/>
+        element : <Layout/>,
+        children : [
+            {
+                index : true,
+                element : <Inicio/>
+            },
+            {
+                path : "/productos",
+                element : <ProductList/>
+            },
+            {
+                path : "/crearProducto",
+                element : <CrearProducto/>
+            },
+            {
+                path : "/actualizarProducto/:id",
+                element : <ActualizarProducto/>
+            }
+        ]
     },
     {
         path : "/auth",
@@ -38,9 +45,6 @@ const router = createBrowserRouter([
                 element : <Register/>
             }
         ] 
-    },
-    {
-        
     }
 ])
 

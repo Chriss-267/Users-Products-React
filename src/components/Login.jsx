@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom'
 import useAuth from '../hooks/useAuth';
 import AlertaError from './AlertaError';
 import { createRef, useState } from 'react';
+import Spinner from '../spinner/Spinner';
 
 
 
 export default function Login() {
 
   
-  const {login} = useAuth()
+  const {login, loginLoading} = useAuth({middleware : "guest", url : "/"})
 
   const emailRef = createRef();
   const passwordRef = createRef();
@@ -35,7 +36,7 @@ export default function Login() {
     <div>
         <form action="" className='w-96 p-6 space-y-2' noValidate onSubmit={handleSubmit}>
 
-          {errores ? errores.map((error, i) => <AlertaError key={i}> {error}</AlertaError>) : null}
+          
 
           <h1 className='text-white text-4xl font-bold text-center'>Log In</h1>
           <p className='text-white mb-6'>Let's to start</p>
@@ -53,14 +54,20 @@ export default function Login() {
                 <input type="password" placeholder='Your Password' id='password' name='password'
                 className='block p-2 w-full rounded-2xl bg-black placeholder:text-white text-white caret-white'
                 ref={passwordRef}/>
+                
             </div>
             
             <input type="submit" value="Log In" className='bg-red-400 mt-4 w-full p-2 font-bold text-xl rounded-xl hover:bg-red-300 cursor-pointer'/>
         </form>
 
-        <section className='text-center'>
-            <Link to= "/auth/register" className='text-white'>Don't have an account yet?</Link>
+        
+
+        <section className='text-center mb-2'>
+            <Link to= "/auth/register" className='text-white !no-underline'>Don't have an account yet?</Link>
         </section>
+
+        {errores ? errores.map((error, i) => <AlertaError key={i}> {error}</AlertaError>) : null}
+        {loginLoading && <Spinner/>}
     </div>
   )
 }
