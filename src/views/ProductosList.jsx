@@ -48,15 +48,17 @@ function ProductList() {
                 fetch(`${import.meta.env.VITE_API_URL}/api/review/average`)
                     .then((ratingResponse) => {
                         if (!ratingResponse.ok) {
-                            throw new Error('Error fetching ratings');
+                            const updatedProducts = data.map((product) => ({
+                                ...product,
+                                average_rating: 0,
+                            }));
                         }
                         return ratingResponse.json();
                     })
                     .then((ratingData) => {
-                        // Mapeamos los productos para agregarles el rating promedio
+                        const ratings = ratingData.data || [];
                         const updatedProducts = data.map((product) => {
-                            // Buscar el rating promedio correspondiente al producto
-                            const productRating = ratingData.data.find(rating => rating.id === product.id);
+                            const productRating = ratings.find(rating => rating.id === product.id);
                             return {
                                 ...product,
                                 average_rating: productRating ? productRating.average_rating : 0, // Agregar el rating promedio o 0 si no existe
