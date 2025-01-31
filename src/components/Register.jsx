@@ -12,6 +12,8 @@ const Register = () => {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Estado para mostrar/ocultar confirmación de contraseña
 
   const navigate = useNavigate();
 
@@ -38,7 +40,7 @@ const Register = () => {
         name: formData.name,
         email: formData.email,
         password: formData.password,
-        password_confirmation : formData.password_confirmation
+        password_confirmation: formData.password_confirmation,
       });
 
       // Guardar el token en sessionStorage y redirigir al usuario
@@ -62,6 +64,14 @@ const Register = () => {
           "An error occurred. Please try again later."
       );
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword); // Alternar visibilidad de la contraseña
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword); // Alternar visibilidad de la confirmación de contraseña
   };
 
   return (
@@ -107,7 +117,7 @@ const Register = () => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group relative">
             <label
               htmlFor="password"
               className="block text-sm font-medium text-white"
@@ -115,18 +125,30 @@ const Register = () => {
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"} // Cambiar tipo de input dinámicamente
               id="password"
               name="password"
               placeholder="Your Password"
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500 pr-10" // Añadir padding a la derecha
             />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+              style={{ top: "70%", transform: "translateY(-50%)" }}
+            >
+              {showPassword ? (
+                <span className="text-gray-500">👁️</span> // Icono de ojo abierto
+              ) : (
+                <span className="text-gray-500">👁️‍🗨️</span> // Icono de ojo cerrado
+              )}
+            </button>
           </div>
 
-          <div className="form-group">
+          <div className="form-group relative">
             <label
               htmlFor="confirmPassword"
               className="block text-sm font-medium text-white"
@@ -134,15 +156,27 @@ const Register = () => {
               Confirm Password
             </label>
             <input
-              type="password"
+              type={showConfirmPassword ? "text" : "password"} // Cambiar tipo de input dinámicamente
               id="confirmPassword"
               name="password_confirmation"
               placeholder="Confirm Your Password"
               value={formData.password_confirmation}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500 pr-10" // Añadir padding a la derecha
             />
+            <button
+              type="button"
+              onClick={toggleConfirmPasswordVisibility}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+              style={{ top: "70%", transform: "translateY(-50%)" }}
+            >
+              {showConfirmPassword ? (
+                <span className="text-gray-500">👁️</span> // Icono de ojo abierto
+              ) : (
+                <span className="text-gray-500">👁️‍🗨️</span> // Icono de ojo cerrado
+              )}
+            </button>
           </div>
 
           {error && <p className="text-sm text-red-600">{error}</p>}
