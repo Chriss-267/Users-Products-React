@@ -3,6 +3,8 @@ import useAuth from '../hooks/useAuth';
 import AlertaError from './AlertaError';
 import { createRef, useState } from 'react';
 import Spinner from '../spinner/Spinner';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Importar FontAwesome
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'; // Importar iconos
 
 export default function Login() {
   const { login, loginLoading } = useAuth({ middleware: "guest", url: "/" });
@@ -64,9 +66,13 @@ export default function Login() {
               style={{ top: '50%', transform: 'translateY(-50%)' }}
             >
               {showPassword ? (
-                <span className="text-white">👁️</span> // Icono de ojo abierto
+                <span className="text-white">
+                  <FontAwesomeIcon icon={faEye} /> {/* Icono de ojo abierto */}
+                </span>
               ) : (
-                <span className="text-white">👁️‍🗨️</span> // Icono de ojo cerrado
+                <span className="text-white">
+                  <FontAwesomeIcon icon={faEyeSlash} /> {/* Icono de ojo cerrado */}
+                </span>
               )}
             </button>
           </div>
