@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import clienteAxios from "../config/axios";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -46,7 +48,12 @@ const Register = () => {
       // Guardar el token en sessionStorage y redirigir al usuario
       sessionStorage.setItem("AUTH_TOKEN", data.token);
       setSuccess("User registered successfully!");
-      setFormData({ name: "", email: "", password: "", password_confirmation: "" });
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+      });
 
       // Redirigir al inicio después de registrarse
       navigate("/");
@@ -75,131 +82,144 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="w-96 p-6 space-y-2">
-        <h2 className="text-white text-4xl font-bold text-center">Register</h2>
-        <form onSubmit={handleSubmit} noValidate className="space-y-4">
-          <div className="form-group">
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-white"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              placeholder="Your Name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
-            />
-          </div>
-
-          <div className="form-group">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-white"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Your Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
-            />
-          </div>
-
-          <div className="form-group relative">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-white"
-            >
-              Password
-            </label>
-            <input
-              type={showPassword ? "text" : "password"} // Cambiar tipo de input dinámicamente
-              id="password"
-              name="password"
-              placeholder="Your Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500 pr-10" // Añadir padding a la derecha
-            />
-            <button
-              type="button"
-              onClick={togglePasswordVisibility}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
-              style={{ top: "70%", transform: "translateY(-50%)" }}
-            >
-              {showPassword ? (
-                <span className="text-gray-500">👁️</span> // Icono de ojo abierto
-              ) : (
-                <span className="text-gray-500">👁️‍🗨️</span> // Icono de ojo cerrado
-              )}
-            </button>
-          </div>
-
-          <div className="form-group relative">
-            <label
-              htmlFor="confirmPassword"
-              className="block text-sm font-medium text-white"
-            >
-              Confirm Password
-            </label>
-            <input
-              type={showConfirmPassword ? "text" : "password"} // Cambiar tipo de input dinámicamente
-              id="confirmPassword"
-              name="password_confirmation"
-              placeholder="Confirm Your Password"
-              value={formData.password_confirmation}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500 pr-10" // Añadir padding a la derecha
-            />
-            <button
-              type="button"
-              onClick={toggleConfirmPasswordVisibility}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
-              style={{ top: "70%", transform: "translateY(-50%)" }}
-            >
-              {showConfirmPassword ? (
-                <span className="text-gray-500">👁️</span> // Icono de ojo abierto
-              ) : (
-                <span className="text-gray-500">👁️‍🗨️</span> // Icono de ojo cerrado
-              )}
-            </button>
-          </div>
-
-          {error && <p className="text-sm text-red-600">{error}</p>}
-          {success && <p className="text-sm text-green-600">{success}</p>}
-
-          <button
-            type="submit"
-            className="bg-red-400 mt-4 w-full p-2 font-bold text-xl rounded-xl hover:bg-red-300 cursor-pointer"
+    <div className="w-full max-w-md p-6 space-y-4 bg-black/60 rounded-lg">
+      <h2 className="text-white text-4xl font-bold text-center">Register</h2>
+      <form
+        action=""
+        className="max-w-sm w-full p-6 space-y-2"
+        noValidate
+        onSubmit={handleSubmit}
+      >
+        <div className="form-group">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-white"
           >
-            Register
-          </button>
-        </form>
-        <div className="text-center mt-4">
-          <p className="text-white">
-            Already have an account?{" "}
-            <a
-              href="/auth/login"
-              className="text-black font-bold hover:underline"
-            >
-              Log in
-            </a>
-          </p>
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Your Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full px-3 py-2 text-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
+          />
         </div>
+
+        <div className="form-group">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-white"
+          >
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Your Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full px-3 py-2 text-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
+          />
+        </div>
+
+        <div className="form-group relative">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-white"
+          >
+            Password
+          </label>
+          <input
+            type={showPassword ? "text" : "password"} // Cambiar tipo de input dinámicamente
+            id="password"
+            name="password"
+            placeholder="Your Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            className="w-full px-3 py-2 text-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500 pr-10" // Añadir padding a la derecha
+          />
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+            style={{ top: "70%", transform: "translateY(-50%)" }}
+          >
+            {showPassword ? (
+              <span className="text-gray-500">
+                <FontAwesomeIcon icon={faEye} /> {/* Icono de ojo abierto */}
+              </span>
+            ) : (
+              <span className="text-gray-500">
+                <FontAwesomeIcon icon={faEyeSlash} />{" "}
+                {/* Icono de ojo cerrado */}
+              </span>
+            )}
+          </button>
+        </div>
+
+        <div className="form-group relative">
+          <label
+            htmlFor="confirmPassword"
+            className="block text-sm font-medium text-white"
+          >
+            Confirm Password
+          </label>
+          <input
+            type={showConfirmPassword ? "text" : "password"} // Cambiar tipo de input dinámicamente
+            id="confirmPassword"
+            name="password_confirmation"
+            placeholder="Confirm Your Password"
+            value={formData.password_confirmation}
+            onChange={handleChange}
+            required
+            className="w-full px-3 py-2 text-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500 pr-10" // Añadir padding a la derecha
+          />
+          <button
+            type="button"
+            onClick={toggleConfirmPasswordVisibility}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+            style={{ top: "70%", transform: "translateY(-50%)" }}
+          >
+            {showConfirmPassword ? (
+              <span className="text-gray-500">
+                <FontAwesomeIcon icon={faEye} /> {/* Icono de ojo abierto */}
+              </span>
+            ) : (
+              <span className="text-gray-500">
+                <FontAwesomeIcon icon={faEyeSlash} />{" "}
+                {/* Icono de ojo cerrado */}
+              </span>
+            )}
+          </button>
+        </div>
+
+        {error && <p className="text-sm text-red-600">{error}</p>}
+        {success && <p className="text-sm text-green-600">{success}</p>}
+
+        <button
+          type="submit"
+          className="bg-red-400 mt-4 w-full p-2 font-bold text-xl rounded-xl hover:bg-red-300 cursor-pointer"
+        >
+          Register
+        </button>
+      </form>
+      <div className="text-center mt-4">
+        <p className="text-white">
+          Already have an account?{" "}
+          <a
+            href="/auth/login"
+            className="text-white font-bold hover:underline"
+          >
+            Log in
+          </a>
+        </p>
       </div>
     </div>
   );
