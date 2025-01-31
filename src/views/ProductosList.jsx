@@ -200,7 +200,7 @@ function ProductList() {
         <div className="container mx-auto p-4">
             {products.length === 0 ? (
                 <div className="text-center text-xl">
-                    <p className='text-6xl font-bold text-center'>No hay productos registrados.</p>
+                    <p className="text-6xl font-bold">No hay productos registrados.</p>
                     <Link to="/crearProducto">
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Agregar un producto
@@ -208,99 +208,98 @@ function ProductList() {
                     </Link>
                 </div>
             ) : (
-
                 <div className="container mx-auto p-4 mb-4">
-                    <div className='flex justify-end mb-4'>
+                    <div className="flex justify-end mb-4">
                         <Link to="/crearProducto">
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 Agregar un producto
                             </button>
                         </Link>
                     </div>
-                    <p className='text-6xl font-bold text-center'>Productos disponibles</p>
-                    <table className="table-auto w-full border border-gray-300 shadow-md rounded-lg"> {/* Tabla principal */}
-                        <thead>
-                            <tr className="bg-gray-100 hover:bg-gray-200 transition duration-300"> {/* Encabezado de la tabla */}
-                                <th className="border border-gray-300 px-4 py-2">Nombre</th>
-                                <th className="border border-gray-300 px-4 py-2">Descripción</th>
-                                <th className="border border-gray-300 px-4 py-2">Distribuidor</th>
-                                <th className="border border-gray-300 px-4 py-2">Categoria</th>
-                                <th className="border border-gray-300 px-4 py-2">Precio</th>
-                                <th className="border border-gray-300 px-4 py-2">Stock</th>
-                                <th className="border border-gray-300 px-4 py-2">Estado</th>
-                                <th className="border border-gray-300 px-4 py-2">Valoraciones</th>
-                                <th className="border border-gray-300 px-4 py-2">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-300">
-                            {products.map((product, index) => (
-                                <tr key={product.id} className={index % 2 === 0 ? "bg-gray-100" : "bg-white"}>
-                                    <td className="border border-gray-300 px-4 py-2">{product.name}</td>
-                                    <td className="border border-gray-300 px-4 py-2 w-1/3 whitespace-normal break-words">{product.description}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{getDistributorName(product.distributor_id)}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{getCategoryName(product.category_id)}</td>
-                                    <td className="border border-gray-300 px-4 py-2 font-bold text-green-600">
-                                        ${product.price}
-                                    </td>
-                                    <td className="border border-gray-300 px-4 py-2 text-blue-500">{product.stock}</td>
-                                    <td className="border border-gray-300 px-4 py-2 text-yellow-500">
-                                        {product.status === 'available' ? 'Disponible' :
-                                            product.status === 'out_of_stock' ? 'Fuera de Inventario' :
-                                                product.status === 'discontinued' ? 'Descontinuado' :
-                                                    'Estado desconocido'}
-                                    </td>
-                                    {/*         PARTE CARLOS FLORES              */}
-                                    <td className="border border-gray-300 px-4 py-2">
-                                        {product.average_rating != null && !isNaN(product.average_rating) ? (
-                                            <>
-                                                <span className="font-bold">{Number(product.average_rating).toFixed(1)}</span>
-                                                <span className="ml-2 text-yellow-500">
-                                                    {/* Solo una estrella acompañando el promedio */}
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                        strokeWidth="1.5"
-                                                        stroke="currentColor"
-                                                        className="w-5 h-5 inline-block"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            d="M12 17.27l4.15 2.73-1.05-4.92L20 9.24l-4.91-.42L12 2 8.91 8.82 4 9.24l3.9 5.84-1.05 4.92L12 17.27z"
-                                                        />
-                                                    </svg>
-                                                </span>
-                                            </>
-                                        ) : (
-                                            <span>No hay valoraciones</span>
-                                        )}
-                                    </td>
-
-
-                                    <td className="border px-4 py-2 flex justify-center space-x-4">
-                                        <Link to={`/actualizarProducto/${product.id}`} title='Actualizar'>
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                            </svg>
-                                        </Link>
-
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 cursor-pointer" onClick={() => handleDelete(product.id)} title="Eliminar">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                        </svg>
-
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 cursor-pointer" onClick={() => handleOpenReviewModal(product.id)} title="Favorito">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                                        </svg>
-                                    </td>
+                    <p className="text-6xl font-bold text-center">Productos disponibles</p>
+    
+                    {/* Contenedor con desplazamiento horizontal */}
+                    <div className="overflow-x-auto w-full">
+                        <table className="table-auto min-w-full border border-gray-300 shadow-md rounded-lg mx-auto">
+                            <thead>
+                                <tr className="bg-gray-100 hover:bg-gray-200 transition duration-300">
+                                    <th className="border border-gray-300 px-4 py-2">Nombre</th>
+                                    <th className="border border-gray-300 px-4 py-2">Descripción</th>
+                                    <th className="border border-gray-300 px-4 py-2">Distribuidor</th>
+                                    <th className="border border-gray-300 px-4 py-2">Categoria</th>
+                                    <th className="border border-gray-300 px-4 py-2">Precio</th>
+                                    <th className="border border-gray-300 px-4 py-2">Stock</th>
+                                    <th className="border border-gray-300 px-4 py-2">Estado</th>
+                                    <th className="border border-gray-300 px-4 py-2">Valoraciones</th>
+                                    <th className="border border-gray-300 px-4 py-2">Acciones</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className="divide-y divide-gray-300">
+                                {products.map((product, index) => (
+                                    <tr key={product.id} className={index % 2 === 0 ? "bg-gray-100" : "bg-white"}>
+                                        <td className="border border-gray-300 px-4 py-2">{product.name}</td>
+                                        <td className="border border-gray-300 px-4 py-2 w-1/3 whitespace-normal break-words">{product.description}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{getDistributorName(product.distributor_id)}</td>
+                                        <td className="border border-gray-300 px-4 py-2">{getCategoryName(product.category_id)}</td>
+                                        <td className="border border-gray-300 px-4 py-2 font-bold text-green-600">
+                                            ${product.price}
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2 text-blue-500">{product.stock}</td>
+                                        <td className="border border-gray-300 px-4 py-2 text-yellow-500">
+                                            {product.status === 'available' ? 'Disponible' :
+                                                product.status === 'out_of_stock' ? 'Fuera de Inventario' :
+                                                    product.status === 'discontinued' ? 'Descontinuado' :
+                                                        'Estado desconocido'}
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2">
+                                            {product.average_rating != null && !isNaN(product.average_rating) ? (
+                                                <>
+                                                    <span className="font-bold">{Number(product.average_rating).toFixed(1)}</span>
+                                                    <span className="ml-2 text-yellow-500">
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="currentColor"
+                                                            viewBox="0 0 24 24"
+                                                            strokeWidth="1.5"
+                                                            stroke="currentColor"
+                                                            className="w-5 h-5 inline-block"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                d="M12 17.27l4.15 2.73-1.05-4.92L20 9.24l-4.91-.42L12 2 8.91 8.82 4 9.24l3.9 5.84-1.05 4.92L12 17.27z"
+                                                            />
+                                                        </svg>
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <span>No hay valoraciones</span>
+                                            )}
+                                        </td>
+                                        <td className="border px-4 py-2 flex justify-center space-x-4">
+                                            <Link to={`/actualizarProducto/${product.id}`} title="Actualizar">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                </svg>
+                                            </Link>
+    
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 cursor-pointer" onClick={() => handleDelete(product.id)} title="Eliminar">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+    
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 cursor-pointer" onClick={() => handleOpenReviewModal(product.id)} title="Favorito">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                            </svg>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             )}
-
-            {/* Modal para crear reseña PARTE CARLOS FLORES     */}
+    
+            {/* Modal para crear reseña */}
             {showReviewModal && (
                 <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
                     <div className="bg-white p-8 rounded-lg shadow-lg w-11/12 md:w-2/3 lg:w-1/2 xl:w-1/3">
@@ -362,11 +361,9 @@ function ProductList() {
                     </div>
                 </div>
             )}
-
-
-
         </div>
     );
+    
 }
 
 export default ProductList;
