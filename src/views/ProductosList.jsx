@@ -25,7 +25,7 @@ function ProductList() {
 
     useEffect(() => {
         // Realiza la solicitud GET para obtener los productos
-        fetch('http://127.0.0.1:8000/api/products/show')
+        fetch(`${import.meta.env.VITE_API_URL}/api/products/show`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Error fetching products');
@@ -42,7 +42,7 @@ function ProductList() {
             });
 
         // Obtener las categorías
-        fetch('http://127.0.0.1:8000/api/product-categories/show')
+        fetch(`${import.meta.env.VITE_API_URL}/api/product-categories/show`)
             .then((response) => response.json())
             .then((data) => {
                 setCategories(data); // Asumimos que la respuesta es un array de categorías
@@ -50,7 +50,7 @@ function ProductList() {
             .catch((error) => console.error('Error fetching categories:', error));
 
         // Obtener los distribuidores
-        fetch('http://127.0.0.1:8000/api/distributors/show')
+        fetch(`${import.meta.env.VITE_API_URL}/api/distributors/show`)
             .then((response) => response.json())
             .then((data) => {
                 setDistributors(data); // Asumimos que la respuesta es un array de distribuidores
@@ -62,7 +62,7 @@ function ProductList() {
     const handleDelete = (id) => {
         // Realizar la solicitud DELETE para eliminar el producto
         axios
-            .delete(`http://localhost:8000/api/products/delete/${id}`)
+            .delete(`${import.meta.env.VITE_API_URL}/api/products/delete/${id}`)
             .then(() => {
                 // Actualizar la lista de productos después de eliminar
                 setProducts(products.filter((product) => product.id !== id));

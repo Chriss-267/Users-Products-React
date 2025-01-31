@@ -16,11 +16,11 @@ function CrearProducto() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:8000/api/product-categories/show")
+        axios.get(`${import.meta.env.VITE_API_URL}/api/product-categories/show`)
             .then(response => setCategories(response.data))
             .catch(error => console.error("Error al obtener categorías:", error));
 
-        axios.get("http://localhost:8000/api/distributors/show")
+        axios.get(`${import.meta.env.VITE_API_URL}/api/distributors/show`)
             .then(response => setDistributors(response.data))
             .catch(error => console.error("Error al obtener distribuidores:", error));
     }, []);
@@ -37,7 +37,7 @@ function CrearProducto() {
             status,
         });
         axios
-            .post("http://localhost:8000/api/products/create", {
+            .post(`${import.meta.env.VITE_API_URL}/api/products/create`, {
                 name,
                 description,
                 price,

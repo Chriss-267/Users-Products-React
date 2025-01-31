@@ -27,20 +27,20 @@ function ActualizarProducto() {
     // Obtener el producto a actualizar y las categorías/distribuidores
     useEffect(() => {
         // Obtener las categorías y distribuidores
-        axios.get("http://localhost:8000/api/product-categories/show")
+        axios.get(`${import.meta.env.VITE_API_URL}/api/product-categories/show`)
             .then((response) => {
                 setCategories(response.data);
             })
             .catch((error) => console.error("Error al obtener las categorías:", error));
 
-        axios.get("http://localhost:8000/api/distributors/show")
+        axios.get(`${import.meta.env.VITE_API_URL}/api/distributors/show`)
             .then((response) => {
                 setDistributors(response.data);
             })
             .catch((error) => console.error("Error al obtener los distribuidores:", error));
 
         // Obtener los datos del producto
-        axios.get(`http://localhost:8000/api/products/show/${id}`)
+        axios.get(`${import.meta.env.VITE_API_URL}/api/products/show/${id}`)
             .then((response) => {
                 const product = response.data;
                 setName(product.name);
@@ -61,7 +61,7 @@ function ActualizarProducto() {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios
-            .patch(`http://localhost:8000/api/products/update/${id}`, {
+            .patch(`${import.meta.env.VITE_API_URL}/api/products/update/${id}`, {
                 name,
                 description,
                 price,
