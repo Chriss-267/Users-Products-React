@@ -84,7 +84,12 @@ const Register = () => {
   return (
     <div className="w-full max-w-md p-6 space-y-4 bg-black/60 rounded-lg">
       <h2 className="text-white text-4xl font-bold text-center">Register</h2>
-      <form onSubmit={handleSubmit} noValidate className="space-y-4">
+      <form
+        action=""
+        className="max-w-sm w-full p-6 space-y-2"
+        noValidate
+        onSubmit={handleSubmit}
+      >
         <div className="form-group">
           <label
             htmlFor="name"
