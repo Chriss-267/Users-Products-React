@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 function CrearProducto() {
     const [name, setName] = useState("");
@@ -46,8 +47,11 @@ function CrearProducto() {
                 distributor_id,
                 status,
             })
-            .then(() => navigate("/productos"))
+            .then(() => setTimeout(() => {
+                navigate("/productos")
+            }, 5000))
             .catch((error) => console.error(error));
+            toast.success("Producto Agregado")
     };
 
     return (
@@ -153,6 +157,8 @@ function CrearProducto() {
                     Guardar
                 </button>
             </form>
+
+            <ToastContainer/>
         </div>
     );
 }

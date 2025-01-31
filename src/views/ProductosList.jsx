@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Spinner from '../spinner/Spinner';
+import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 
 function ProductList() {
     const [products, setProducts] = useState([]);
@@ -61,7 +63,18 @@ function ProductList() {
 
     const handleDelete = (id) => {
         // Realizar la solicitud DELETE para eliminar el producto
-        axios
+
+        Swal.fire({
+            title: "¿Estas seguro de eliminar este producto?",
+            text: "No podrás revertir esta acción",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, Eliminar"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                axios
             .delete(`${import.meta.env.VITE_API_URL}/api/products/delete/${id}`)
             .then(() => {
                 // Actualizar la lista de productos después de eliminar
@@ -71,6 +84,16 @@ function ProductList() {
                 console.error("Error deleting product:", error);
                 setError("Error al eliminar el producto.");
             });
+
+              Swal.fire({
+                title: "Eliminado!",
+                text: "El Producto ha sido eliminado",
+                icon: "success"
+              });
+            }
+
+          });
+        
     };
 
     if (loading) {
@@ -152,6 +175,8 @@ function ProductList() {
                     </table>
                 </div>
             )}
+
+            
         </div>
     );
 }

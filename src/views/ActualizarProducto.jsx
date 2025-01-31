@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { ToastContainer,toast } from "react-toastify";
+import Spinner from "../spinner/Spinner";
+
 
 function ActualizarProducto() {
     const { id } = useParams(); // Obtener el id del producto desde la URL
@@ -70,11 +73,18 @@ function ActualizarProducto() {
                 distributor_id,
                 status,
             })
-            .then(() => navigate("/")) // Redirigir a la lista de productos
+            .then(() => setTimeout(() => {
+                navigate("/productos")
+            }, 5000)) // Redirigir a la lista de productos
             .catch((error) => console.error("Error al actualizar el producto:", error));
+           
+                toast.success("Producto Actualizado")
+            
+            
+            
     };
 
-    if (loading) return <div className='text-6xl font-bold text-center'>Cargando...</div>;
+    if (loading) return <div className='my-20'><Spinner/> </div>;
     if (error) return <div>{error}</div>;
 
     return (
@@ -184,6 +194,7 @@ function ActualizarProducto() {
                     Actualizar
                 </button>
             </form>
+            <ToastContainer />
         </div>
     );
 }
